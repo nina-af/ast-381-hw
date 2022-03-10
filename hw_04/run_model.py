@@ -84,4 +84,4 @@ fname_run   = 'yso_{0:d}e{1:d}_{2:d}_{3:d}_{4:d}.rtout'.format(pre_p, exp_p, n_r
 
 # Write and run model.
 m.write(fname_write)
-m.run(fname_run, mpi=False)
+m.run(fname_run, mpi=True, n_processes=4)

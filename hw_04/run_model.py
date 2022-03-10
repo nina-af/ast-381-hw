@@ -52,6 +52,9 @@ envelope.dust  = fname_dust
 # Enable raytracing.
 m.set_raytracing(True)
 
+# For high densities, enable modified random walk.
+m.set_mrw(True, gamma=2.)
+
 # Output specific energy and density.
 m.conf.output.output_specific_energy = 'last'
 m.conf.output.output_density = 'last'

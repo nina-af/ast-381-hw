@@ -19,7 +19,8 @@ Lbox = float(sys.argv[2])
 fname = 'mhd_blast_n{0:d}_ics.hdf5'.format(N_1D)
 
 DIMS        = 2            # 2D grid.
-R_0         = 0.1 * Lbox   # Circle of radius 0.1 * Lbox cm.
+#R_0         = 0.1 * Lbox   # Circle of radius 0.1 * Lbox cm.
+R_0 = 0.1
 rho_desired = 1.0          # Box average initial gas density [g / cm^2].
 Pi_desired  = 10.0         # Pressure inside circle of radius R_0.
 Po_desired  = 0.1          # Pressure outside circle of radius R_0.
@@ -34,7 +35,7 @@ x0 = np.arange(-0.5, 0.5, 1./N_1D); x0 += 0.5 * (0.5 - x0[-1])
 # Now extend that to a full lattice in DIMS dimensions
 xv_g, yv_g = np.meshgrid(x0, x0, sparse=False, indexing='xy'); zv_g = 0.0 * xv_g
 
-# Mask of circle of radius R_0 centered at (0.5, 0.5).
+# Mask of circle of radius R_0 centered at (0.0, 0.0).
 r_vals = np.sqrt(xv_g**2 + yv_g**2)
 r0_vals = np.full((N_1D, N_1D), R_0, dtype=float)
 r_mask = np.less(r_vals, r0_vals)
@@ -61,7 +62,7 @@ bz_g = np.zeros(len(xv_g))
 # Set the particle masses. Here we set it to be a list the same length, with all the same 
 # mass - since their space-density is uniform this gives a uniform density, at the desired 
 # value.
-mv_g  = rho_desired / ((1.0 * Ngas) / (Lbox * Lbox * Lbox)) + 0.0 * xv_g
+mv_g  = rho_desired / ((1.0 * Ngas) / (Lbox * Lbox)) + 0.0 * xv_g
 
 # Set the initial internal energy per unit mass. Recall GIZMO uses this as the initial 
 # 'temperature' variable.

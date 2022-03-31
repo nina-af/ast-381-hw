@@ -19,8 +19,7 @@ Lbox = float(sys.argv[2])
 fname = 'mhd_blast_n{0:d}_ics.hdf5'.format(N_1D)
 
 DIMS        = 2            # 2D grid.
-#R_0         = 0.1 * Lbox   # Circle of radius 0.1 * Lbox cm.
-R_0 = 0.1
+R_0         = 0.1 * Lbox   # Circle of radius 0.1 * Lbox cm.
 rho_desired = 1.0          # Box average initial gas density [g / cm^2].
 Pi_desired  = 10.0         # Pressure inside circle of radius R_0.
 Po_desired  = 0.1          # Pressure outside circle of radius R_0.

@@ -3,7 +3,7 @@
 '''
 Command-line input: 
 - number of grid cells in 1D.
-- number of dimensions.
+- box lenght [cm].
 - following make_ics.py in Gizmo /scripts.
 '''
 
@@ -11,18 +11,18 @@ import numpy as np
 import h5py as h5py
 import sys
 
-# Parse number of photons, grid resolution from command line.
+# Parse number of photons, grid resolution, box size from command line.
 N_1D = int(sys.argv[1])
-DIMS = int(sys.argv[2])
+Lbox = float(sys.argv[2])
 
 # Output filename.
 fname = 'mhd_blast_n{0:d}_ics.hdf5'.format(N_1D)
 
-Lbox        = 1.0   # Box side length [cm].
-R_0         = 0.1   # Circle of radius 0.1 cm.
-rho_desired = 1.0   # Box average initial gas density [g / cm^2].
-Pi_desired  = 10.0  # Pressure inside circle of radius R_0.
-Po_desired  = 0.1   # Pressure outside circle of radius R_0.
+DIMS        = 2            # 2D grid.
+R_0         = 0.1 * Lbox   # Circle of radius 0.1 * Lbox cm.
+rho_desired = 1.0          # Box average initial gas density [g / cm^2].
+Pi_desired  = 10.0         # Pressure inside circle of radius R_0.
+Po_desired  = 0.1          # Pressure outside circle of radius R_0.
     
 gamma_eos = 5.0 / 3.0  # Polytropic index of ideal equation of state the run will assume.
     
@@ -62,7 +62,6 @@ bz_g = np.zeros(len(xv_g))
 # mass - since their space-density is uniform this gives a uniform density, at the desired 
 # value.
 mv_g  = rho_desired / ((1.0 * Ngas) / (Lbox * Lbox * Lbox)) + 0.0 * xv_g
-rho_g = rho_desired * np.ones(len(xv_g))
 
 # Set the initial internal energy per unit mass. Recall GIZMO uses this as the initial 
 # 'temperature' variable.
@@ -112,8 +111,6 @@ q = np.zeros((Ngas, 3)); q[:, 0] = vx_g; q[:, 1] = vy_g; q[:, 2] = vz_g
 p.create_dataset("Velocities", data=q)
 p.create_dataset("ParticleIDs", data=id_g)
 p.create_dataset("Masses", data=mv_g)
-
-p.create_dataset("Density", data=rho_g)
 
 p.create_dataset("InternalEnergy", data=uv_g)
 
